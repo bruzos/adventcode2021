@@ -1,35 +1,9 @@
 package main
 
 import (
+	"codeadvent/tools"
 	"fmt"
-	"io/ioutil"
-	"strconv"
-	"strings"
 )
-
-func readFile(name string) (nums []int, err error) {
-	b, err := ioutil.ReadFile(name)
-	if err != nil {
-		return nil, err
-	}
-
-	lines := strings.Split(string(b), "\n")
-	// Assign cap to avoid resize on every append.
-	nums = make([]int, 0, len(lines))
-
-	for _, l := range lines {
-		if len(l) == 0 {
-			continue
-		}
-		n, err := strconv.Atoi(l)
-		if err != nil {
-			return nil, err
-		}
-		nums = append(nums, n)
-	}
-
-	return nums, nil
-}
 
 func DepthSum(depths []int) int {
 	var depthsIncreasedCount int
@@ -75,16 +49,20 @@ func sumArray(depths []int) int {
 }
 
 func main() {
-	depths, err := readFile("cmd/day-01/input")
+	lines, err := tools.ReadFile("cmd/day-01/input")
 	if err != nil {
 		panic(err)
 	}
 
-	depthsIncreasedCount := DepthSum(depths)
-	fmt.Printf("Day-01 Part 1 - %v measurements that are larger than the previous.\n", depthsIncreasedCount)
-
+	var depths []int
+	depths, err = tools.ReadIntLines(lines)
+	if err != nil {
+		panic(err)
+	}
+	measurementsCount := DepthSum(depths)
 	valueDepths := averagedDepths(depths)
-	depthsIncreasedCount = DepthSum(valueDepths)
+	depthsIncreasedCount := DepthSum(valueDepths)
+	fmt.Printf("Day-01 Part 1 - %v measurements that are larger than the previous.\n", measurementsCount)
 	fmt.Printf("Day-01 Part 2 - %v sums that are larger than the previous sum.\n", depthsIncreasedCount)
 
 }
