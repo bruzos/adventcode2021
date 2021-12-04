@@ -33,11 +33,3 @@ func ReadIntLines(lines []string) (nums []int, err error) {
 
 	return nums, nil
 }
-
-//func ReadMeasurements(lines []string){
-//	measurements := make([]string, 0, len(lines))
-//	for _, line := range lines {
-//		measurements := strings.Fields(line)
-//		measurements = append(measurements, measurement)
-//	}
-//}
